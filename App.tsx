@@ -82,7 +82,7 @@ const PrivacyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
         <h2 className="text-2xl font-extrabold text-cyan-400 mb-6 border-b border-white/10 pb-4">Privacy Policy</h2>
         
         <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed">
-          <p>By using CNVMP3 website, you consent to our privacy policy. This document describes how I treat personal information related to your use of this website and the services offered on and through it, including information you provide when using it.</p>
+          <p>By using ApexGrab website, you consent to our privacy policy. This document describes how I treat personal information related to your use of this website and the services offered on and through it, including information you provide when using it.</p>
           
           <section>
             <h3 className="text-white font-bold mb-2">1. Data Collected</h3>
@@ -167,7 +167,7 @@ const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
         <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed">
           <section>
             <h3 className="text-white font-bold mb-2">Your Acceptance</h3>
-            <p>By using CNVMP3 website, you agree to comply with our terms of use. These Terms & Conditions apply to all users of the Website. If you do not agree to these Terms & Conditions or the Privacy Policy, then please do not use the website.</p>
+            <p>By using ApexGrab website, you agree to comply with our terms of use. These Terms & Conditions apply to all users of the Website. If you do not agree to these Terms & Conditions or the Privacy Policy, then please do not use the website.</p>
           </section>
 
           <section>
