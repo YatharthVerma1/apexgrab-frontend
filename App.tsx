@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { DownloadCard } from './components/DownloadCard';
 import { VideoQuality, DownloadStatus, StartResponse } from './types';
 
-// Backend API URL
-const API_BASE_URL = 'http://localhost:8000';
+// Backend API URL - Use environment variable or fallback to localhost
+const API_BASE_URL = process.env.VITE_API_URL || 'https://apexgrab-backend-production.up.railway.app';
 
 const ComplianceModal: React.FC<{ onAccept: () => void }> = ({ onAccept }) => {
   const [showRejection, setShowRejection] = useState(false);
@@ -44,7 +44,7 @@ const ComplianceModal: React.FC<{ onAccept: () => void }> = ({ onAccept }) => {
           Community Guidelines
         </h2>
         <p className="text-slate-300 text-lg leading-relaxed mb-10">
-          This is an <span className="text-cyan-400 font-bold">Education Project</span>. 
+          This is an <span className="text-cyan-400 font-bold">Education Project</span>.
           By using this tool, you acknowledge that you <span className="text-white font-bold underline decoration-cyan-500 underline-offset-4">respect YouTube policies</span> and will only use it for legitimate educational purposes.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
@@ -72,18 +72,18 @@ const PrivacyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
       <div className="glass-card relative w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-[2rem] p-8 md:p-10 animate-in fade-in zoom-in-95 duration-200">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
         >
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
-        
+
         <h2 className="text-2xl font-extrabold text-cyan-400 mb-6 border-b border-white/10 pb-4">Privacy Policy</h2>
-        
+
         <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed">
           <p>By using ApexGrab website, you consent to our privacy policy. This document describes how I treat personal information related to your use of this website and the services offered on and through it, including information you provide when using it.</p>
-          
+
           <section>
             <h3 className="text-white font-bold mb-2">1. Data Collected</h3>
             <p>We do not collect any information, when you use our website. There are no cookies used on this website and I do not store any information of any kind.</p>
@@ -96,7 +96,7 @@ const PrivacyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
         </div>
 
         <div className="mt-8 pt-6 border-t border-white/10">
-          <button 
+          <button
             onClick={onClose}
             className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
           >
@@ -114,18 +114,18 @@ const CopyrightModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
       <div className="glass-card relative w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-[2rem] p-8 md:p-10 animate-in fade-in zoom-in-95 duration-200">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
         >
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
-        
+
         <h2 className="text-2xl font-extrabold text-cyan-400 mb-6 border-b border-white/10 pb-4">COPYRIGHT CLAIMS</h2>
-        
+
         <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed">
           <p>If you are a copyright owner or an agent thereof and believe that any Content on our website infringes upon your copyrights, you may submit a claim. Your claim should include the following information:</p>
-          
+
           <ul className="list-disc pl-5 space-y-2">
             <li>URL or list of URLs and content description you want me to disallow.</li>
             <li>A physical or electronic signature of a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.</li>
@@ -137,7 +137,7 @@ const CopyrightModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
         </div>
 
         <div className="mt-8 pt-6 border-t border-white/10">
-          <button 
+          <button
             onClick={onClose}
             className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
           >
@@ -155,15 +155,15 @@ const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
     <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose}></div>
       <div className="glass-card relative w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-[2rem] p-8 md:p-10 animate-in fade-in zoom-in-95 duration-200">
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
         >
           <i className="fa-solid fa-xmark text-2xl"></i>
         </button>
-        
+
         <h2 className="text-2xl font-extrabold text-cyan-400 mb-6 border-b border-white/10 pb-4">TERMS OF USE</h2>
-        
+
         <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed">
           <section>
             <h3 className="text-white font-bold mb-2">Your Acceptance</h3>
@@ -172,27 +172,22 @@ const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
 
           <section>
             <h3 className="text-white font-bold mb-2">Intellectual Property</h3>
-            <p>a) The Content on the website, text, graphical images, scripts, trademarks, and logos are owned by me. All Proprietary Materials are subject to copyright. We reserve all of our rights over our Proprietary Materials. b) You agree not to copy, modify, publish, transmit or distribute and in any other way exploit, any content.</p>
+            <p>All intellectual property rights in the Website and its content (excluding User Content) belong to ApexGrab or our licensors. You may use such content for personal, non-commercial use only.</p>
           </section>
 
           <section>
-            <h3 className="text-white font-bold mb-2">Grant of use</h3>
-            <p>a) We grant you a non-exclusive, non-transferable and limited right to access, non-publicly display, and use the Website. You may only access and use the Website for your personal and noncommercial use. b) This grant is terminable by me at will for any reason and at our sole discretion, with or without prior notice.</p>
+            <h3 className="text-white font-bold mb-2">Prohibited Uses</h3>
+            <p>You may not use the Website to: violate any applicable law; infringe intellectual property rights; distribute malware; or engage in any activity that interferes with the proper functioning of the Website.</p>
           </section>
 
           <section>
-            <h3 className="text-white font-bold mb-2">Limitation of Liability</h3>
-            <p>a) We do not guarantee that our services will be uninterrupted, error-free, or secure. b) WE are not liable for any damages, including but not limited to direct, indirect, incidental, or consequential damages, arising out of your use of our website or any content obtained from our website.</p>
-          </section>
-
-          <section>
-            <h3 className="text-white font-bold mb-2">Change of Terms</h3>
-            <p>We reserve the right to update or modify these terms of use at any time without prior notice. Any changes made will be effective immediately upon posting on the website. Your continued use of our services after the posting of changes constitutes your acceptance of the updated terms of use.</p>
+            <h3 className="text-white font-bold mb-2">Disclaimer</h3>
+            <p>The Website is provided "as is" without any warranties. We do not guarantee the accuracy, completeness, or usefulness of any information on the Website.</p>
           </section>
         </div>
 
         <div className="mt-8 pt-6 border-t border-white/10">
-          <button 
+          <button
             onClick={onClose}
             className="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all"
           >
@@ -207,15 +202,14 @@ const TermsModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
 const App: React.FC = () => {
   const [url, setUrl] = useState('');
   const [quality, setQuality] = useState<VideoQuality>('720p');
-  const [jobId, setJobId] = useState<string | null>(null);
-  const [status, setStatus] = useState<DownloadStatus | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [hasAcceptedTerms, setHasAcceptedTerms] = useState<boolean>(false);
+  const [status, setStatus] = useState<DownloadStatus | null>(null);
+  const [jobId, setJobId] = useState<string | null>(null);
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
   const [isCheckingTerms, setIsCheckingTerms] = useState(true);
-  const [showTermsModal, setShowTermsModal] = useState(false);
   const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [showCopyrightModal, setShowCopyrightModal] = useState(false);
-
   const pollerRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -243,10 +237,15 @@ const App: React.FC = () => {
 
     try {
       const res = await fetch(`${API_BASE_URL}/start`, { method: "POST", body: data });
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to start download');
+      }
       const json: StartResponse = await res.json();
       setJobId(json.job_id);
     } catch (error) {
       console.error("Failed to start download", error);
+      alert(error instanceof Error ? error.message : 'Failed to start download. Please check if the backend is running.');
       setIsDownloading(false);
       setStatus(null);
     }
@@ -301,7 +300,7 @@ const App: React.FC = () => {
       <TermsModal isOpen={showTermsModal} onClose={() => setShowTermsModal(false)} />
       <PrivacyModal isOpen={showPrivacyModal} onClose={() => setShowPrivacyModal(false)} />
       <CopyrightModal isOpen={showCopyrightModal} onClose={() => setShowCopyrightModal(false)} />
-      
+
       <div className={`min-h-screen flex flex-col items-center pt-20 pb-12 px-4 transition-all duration-700 ${!hasAcceptedTerms ? 'blur-md pointer-events-none' : 'blur-0'}`}>
         {/* Hero Section */}
         <header className="text-center mb-12 max-w-2xl mx-auto">
@@ -313,7 +312,7 @@ const App: React.FC = () => {
             Apex<span className="text-cyan-400">Grab</span>
           </h1>
           <p className="text-slate-300 text-xl md:text-2xl font-semibold leading-relaxed">
-            Download your favorite YouTube videos in up to 4K quality. 
+            Download your favorite YouTube videos in up to 4K quality.
             Fast, secure, and completely free.
           </p>
         </header>
@@ -359,20 +358,20 @@ const App: React.FC = () => {
 
         <footer className="mt-auto pt-24 text-slate-500 text-sm flex flex-col items-center gap-6 w-full">
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-2">
-            <button 
+            <button
               onClick={() => setShowPrivacyModal(true)}
               className="hover:text-cyan-400 transition-colors"
             >
               Privacy
             </button>
-            <button 
+            <button
               onClick={() => setShowTermsModal(true)}
               className="hover:text-cyan-400 transition-colors"
             >
               Terms
             </button>
             <button className="hover:text-cyan-400 transition-colors">Contact</button>
-            <button 
+            <button
               onClick={() => setShowCopyrightModal(true)}
               className="hover:text-cyan-400 transition-colors"
             >
@@ -381,7 +380,7 @@ const App: React.FC = () => {
           </div>
           <div className="flex flex-col items-center gap-4 text-center px-4">
             <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4">
-              <span className="opacity-50">© 2025 ApexGrab Labs</span>
+              <span className="opacity-50">© 2025 ApexGrab</span>
               <div className="hidden md:block h-4 w-[1px] bg-slate-800"></div>
             </div>
             <p className="text-lg md:text-xl font-bold tracking-tight text-slate-300">
