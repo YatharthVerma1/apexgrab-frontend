@@ -82,7 +82,7 @@ const PrivacyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
         <h2 className="text-2xl font-extrabold text-cyan-400 mb-6 border-b border-white/10 pb-4">Privacy Policy</h2>
 
         <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed">
-          <p>By using ApexGrab website, you consent to our privacy policy. This document describes how I treat personal information related to your use of this website and the services offered on and through it, including information you provide when using it.My ApexGrab Video Downloader tool is intended for personal use only. Downloading and using content without the original creator's permission may violate copyright laws. Always ensure you have the right to download and keep files to yourself until and unless you have original creator's permission.</p>
+          <p>By using ApexGrab website, you consent to our privacy policy. This document describes how I treat personal information related to your use of this website and the services offered on and through it, including information you provide when using it.My ApexGrab Video Downloader tool is intended for personal use only. Downloading and using content without the original creator's permission may violate copyright laws. Always ensure you have the right to download and keep files to yourself until and unless you have original creator's permission to share it.</p>
 
           <section>
             <h3 className="text-white font-bold mb-2">1. Data Collected</h3>
