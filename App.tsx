@@ -74,7 +74,7 @@ const TOOLS: ToolConfig[] = [
 ];
 
 const ThemeToggle: React.FC<{ isDark: boolean; onToggle: () => void }> = ({ isDark, onToggle }) => (
-  <button 
+  <button
     onClick={onToggle}
     className="fixed top-6 right-6 z-[120] w-12 h-12 rounded-2xl glass-card flex items-center justify-center text-xl hover:scale-110 active:scale-95 transition-all shadow-xl"
     aria-label="Toggle Theme"
@@ -107,7 +107,7 @@ const PrivacyModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOp
         <h2 className="text-2xl font-extrabold modal-accent-text mb-6 border-b theme-border pb-4">Privacy Policy</h2>
         <div className="space-y-6 opacity-100 text-sm md:text-base leading-relaxed">
           <p>Welcome to ApexGrab. Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use our service.</p>
-          
+
           <section>
             <h3 className="font-bold mb-2">1. Information We Collect</h3>
             <div className="space-y-2 ml-4">
@@ -443,7 +443,7 @@ const DisclaimerModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ i
 };
 
 const ServiceCard: React.FC<{ tool: ToolConfig; onClick: () => void }> = ({ tool, onClick }) => (
-  <button 
+  <button
     onClick={onClick}
     className="glass-card p-6 rounded-[2rem] text-left group hover:scale-[1.03] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.3)] border-white/5 hover:border-white/20"
   >
@@ -500,7 +500,7 @@ const ComplianceModal: React.FC<{ onAccept: () => void }> = ({ onAccept }) => {
         </div>
         <h2 className="text-3xl font-extrabold mb-4 tracking-tight">Community Guidelines</h2>
         <p className="opacity-80 text-lg leading-relaxed mb-10">
-          This is an <span className="modal-accent-text font-bold">Education Project</span>. 
+          This is an <span className="modal-accent-text font-bold">Education Project</span>.
           By using this tool, you acknowledge that you <span className="modal-accent-text font-bold underline decoration-current underline-offset-4">respect Social Media policies</span> and will only use it for legitimate purpose and will not share any of the files.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
@@ -567,7 +567,7 @@ const App: React.FC = () => {
 
   const selectTool = (tool: ToolConfig) => {
     setActiveTool(tool);
-    
+
     // Set default quality logic
     let defaultQuality = tool.qualities ? tool.qualities[0] : '';
     let defaultSubQuality = '';
@@ -587,7 +587,7 @@ const App: React.FC = () => {
     } else if (tool.id === 'tt-downloader') {
       defaultQuality = 'Best';
     }
-    
+
     setQuality(defaultQuality);
     setSubQuality(defaultSubQuality);
     setLanguage(defaultLanguage);
@@ -642,10 +642,10 @@ const App: React.FC = () => {
         console.error("Failed to cancel", error);
       }
     }
-    
+
     if (pollerRef.current) window.clearInterval(pollerRef.current);
     if (mockIntervalRef.current) window.clearInterval(mockIntervalRef.current);
-    
+
     setIsDownloading(false);
     setDownloadingToolId(null);
     setStatus(null);
@@ -654,14 +654,21 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (jobId) {
-      pollerRef.current = window.setInterval(async ( ) => {
+      pollerRef.current = window.setInterval(async () => {
         try {
           const r = await fetch(`${API_BASE}/status/${jobId}`);
           const j: DownloadStatus = await r.json();
           setStatus(j);
           if (j.ready) {
             if (pollerRef.current) window.clearInterval(pollerRef.current);
-            window.location.href = `${API_BASE}/download/${jobId}`;
+            // Use anchor tag for reliable cross-origin file download
+            const link = document.createElement('a');
+            link.href = `${API_BASE}/download/${jobId}`;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             setIsDownloading(false);
             setDownloadingToolId(null);
             setJobId(null);
@@ -673,11 +680,11 @@ const App: React.FC = () => {
             setJobId(null);
             setStatus(null);
           }
-        } catch (error) {}
+        } catch (error) { }
       }, 1000);
     }
-    return () => { 
-      if (pollerRef.current) window.clearInterval(pollerRef.current); 
+    return () => {
+      if (pollerRef.current) window.clearInterval(pollerRef.current);
       if (mockIntervalRef.current) window.clearInterval(mockIntervalRef.current);
     };
   }, [jobId]);
@@ -687,7 +694,7 @@ const App: React.FC = () => {
   return (
     <>
       {!hasAcceptedTerms && <ComplianceModal onAccept={handleAcceptTerms} />}
-      
+
       <ThemeToggle isDark={isDarkMode} onToggle={toggleTheme} />
 
       {/* Modals */}
@@ -697,7 +704,7 @@ const App: React.FC = () => {
       <DisclaimerModal isOpen={showDisclaimer} onClose={() => setShowDisclaimer(false)} />
 
       <div className={`min-h-screen flex flex-col items-center pt-12 pb-12 px-4 transition-all duration-700 ${!hasAcceptedTerms ? 'blur-sm pointer-events-none' : 'blur-0'}`}>
-        
+
         {/* Navigation / Header */}
         <header className="w-full max-w-7xl flex flex-col items-center mb-16 text-center">
           <div className="flex items-center gap-4 mb-10 cursor-pointer group" onClick={() => setActiveTool(null)}>
@@ -708,11 +715,11 @@ const App: React.FC = () => {
               Apex<span className="modal-accent-text">Grab</span>
             </h1>
           </div>
-          
+
           {!activeTool ? (
             <div className="animate-in fade-in slide-in-from-top-4 duration-700">
               <h2 className="text-3xl md:text-5xl font-semibold mb-6 tracking-tight opacity-90 leading-tight">
-                The most advanced all-in-one <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-black italic text-4xl md:text-6xl drop-shadow-[0_0_20_rgba(6,182,212,0.6)] px-2">4k</span> media extraction platform. 
+                The most advanced all-in-one <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-black italic text-4xl md:text-6xl drop-shadow-[0_0_20_rgba(6,182,212,0.6)] px-2">4k</span> media extraction platform.
               </h2>
               <p className="opacity-60 text-lg md:text-xl font-medium max-w-2xl mx-auto leading-relaxed">
                 Fast, secure, and built for professionals.
@@ -733,19 +740,19 @@ const App: React.FC = () => {
 
               {/* Features Section */}
               <section className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12 animate-in fade-in duration-700 delay-400">
-                <FeatureCard 
+                <FeatureCard
                   icon="fa-solid fa-cloud-arrow-down"
                   title="Fast Downloads"
                   description="Optimized servers ensure your downloads complete in record time."
                   color="#22d3ee"
                 />
-                <FeatureCard 
+                <FeatureCard
                   icon="fa-solid fa-display"
                   title="4K Support"
                   description="Crystal clear quality. Select between 480p up to stunning 4K resolutions."
                   color="#a855f7"
                 />
-                <FeatureCard 
+                <FeatureCard
                   icon="fa-solid fa-shield-halved"
                   title="Safe & Private"
                   description="No tracking, no storage. Your download history is yours and yours alone."
